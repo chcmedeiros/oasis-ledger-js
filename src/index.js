@@ -17,7 +17,6 @@
 
 import { DMKTransport } from "@zondax/ledger-js";
 import { publicKeyv1, serializePathBip44v1, serializePathv1, signSendChunkv1 } from "./helperV1";
-import { warnLegacyTransport } from "./deprecation";
 import {
   APP_KEY,
   CHUNK_SIZE,
@@ -28,6 +27,10 @@ import {
   processErrorResponse,
   P1_VALUES,
 } from "./common";
+
+// Once per process rather than once per app: wallets construct an app per request, and a
+// warning on every construction would bury everything else in their logs.
+let legacyTransportWarned = false;
 
 function processGetAddrEd25519Response(response) {
   const errorCodeData = response.slice(-2);
@@ -93,7 +96,7 @@ export default class OasisApp {
    * @deprecated Pass a `DMKTransport` from `@zondax/ledger-js` instead. Ledger deprecated
    * `@ledgerhq/hw-transport` in favour of the Device Management Kit, and this overload -- which
    * also admits hand-rolled transports -- is removed in the next major version. Using it logs a
-   * one-time warning.
+   * one-time warning. See "Migrating to the Device Management Kit" in the README.
    *
    * `DMKTransport` has private members, so only a real instance selects the overload above: an
    * hw-transport `Transport` or a plain object implementing the two methods lands here.
@@ -112,8 +115,14 @@ export default class OasisApp {
     }
     // A deprecation notice, not a security check: a structural or cross-copy transport can
     // defeat instanceof, and the transport runs in the caller's own process anyway.
-    if (!(transport instanceof DMKTransport)) {
-      warnLegacyTransport();
+    if (!(transport instanceof DMKTransport) && !legacyTransportWarned) {
+      legacyTransportWarned = true;
+      // eslint-disable-next-line no-console
+      console.warn(
+        "[@oasisprotocol/ledger] Passing a transport other than DMKTransport to OasisApp is deprecated and will " +
+          "be rejected in the next major version. Ledger deprecated @ledgerhq/hw-transport in favour of the " +
+          "Device Management Kit; see https://github.com/oasisprotocol/ledger-js#migrating-to-the-device-management-kit",
+      );
     }
 
     /** @type {Awaited<ReturnType<typeof getVersion>>} */

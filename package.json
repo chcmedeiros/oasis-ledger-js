@@ -60,6 +60,7 @@
     "build-types": "tsc -p ./tsconfig.json",
     "certificate": "openssl req -nodes -new -x509 -keyout certs/server.key -out certs/server.cert; openssl x509 -in certs/server.cert -out certs/cert.pem -outform PEM",
     "test:unit": "jest -c jest.config.unit.js --runInBand",
+    "test:types": "yarn build-types && tsc -p tests/types/tsconfig.json",
     "test:integration": "jest -c jest.config.integration.js --runInBand --detectOpenHandles"
   },
   "moduleDirectories": [

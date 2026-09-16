@@ -32,7 +32,9 @@ Upgrading and migrating are separate steps: 2.0.0 still accepts your existing tr
   `Transport` is now an alias of `LedgerTransport`, which only has `send` and `decorateAppAPIMethods`. Passing a
   LedgerJS transport still typechecks. Calling `close()`, `exchange()` or `on()` through this package's type, or
   through `app.transport` on a bare `OasisApp` annotation, does not: import `Transport` from `@ledgerhq/hw-transport`,
-  or annotate `OasisApp<TransportWebUSB>` (inference does this for you on `new OasisApp(transport)`).
+  or annotate with your transport's type, as in `OasisApp<typeof transport>` (inference does this for you on
+  `new OasisApp(transport)`). Note that `TransportWebUSB.create()` returns the base `Transport`, not
+  `TransportWebUSB`.
 
 ### From `@ledgerhq/hw-transport-webusb`
 

@@ -1,0 +1,19 @@
+{
+  "files": ["inference.ts"],
+  "compilerOptions": {
+    "noEmit": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "esnext",
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    // Resolve the package the way a consumer does, but to this checkout's build output.
+    "paths": {
+      "@oasisprotocol/ledger": ["../../dist/index"],
+      "@oasisprotocol/ledger/dist/*": ["../../dist/*"]
+    }
+  }
+}

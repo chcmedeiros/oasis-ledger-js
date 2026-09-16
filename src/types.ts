@@ -64,27 +64,3 @@ export type Response<T> =
   };
 
 export type AsyncResponse<T> = Promise<Response<T>>;
-
-/** Ensures good inferred types  */
-async function typeOnlyTest() {
-  const { default: OasisApp, successOrThrow } = await import('./index');
-  const { default: TransportWebUSB } = await import('@ledgerhq/hw-transport-webusb');
-  const transport = await TransportWebUSB.create();
-  // Cast: against the JS source, the construct signatures TypeScript builds from JSDoc
-  // `@overload` constructors do not carry the class template, so no transport type can bind `T`
-  // here. This check is about the methods' response types, which do not depend on `T`. The
-  // emitted dist/index.d.ts is plain TypeScript and infers `T` from the argument as usual.
-  const app = new OasisApp(transport as any);
-  console.log(successOrThrow(await app.getVersion()).major.toFixed());
-  console.log(successOrThrow(await app.appInfo()).appName.trim());
-  console.log(successOrThrow(await app.deviceInfo()).mcuVersion.trim());
-  console.log(successOrThrow(await app.publicKey([44])).pk.byteLength.toFixed());
-  console.log(successOrThrow(await app.getAddressAndPubKey_ed25519([44])).bech32_address.trim());
-  console.log(successOrThrow(await app.showAddressAndPubKey_ed25519([44])).bech32_address.trim());
-  console.log(successOrThrow(await app.getAddressAndPubKey_secp256k1([44])).hex_address.trim());
-  console.log(successOrThrow(await app.showAddressAndPubKey_secp256k1([44])).hex_address.trim());
-
-  const ctx = 'oasis-core/consensus'
-  const msg = Buffer.from('a')
-  console.log(successOrThrow(await app.sign([44], ctx, msg)).signature?.byteLength.toFixed());
-}

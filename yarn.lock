@@ -1904,7 +1904,7 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@zondax/ledger-js@^2.1.0":
+"@zondax/ledger-js@2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@zondax/ledger-js/-/ledger-js-2.1.0.tgz#8da389903789578e0b70354ff6037b97b3db4093"
   integrity sha512-tFaaJOtbfanOXCPDihTtLE0NfIXuovUrKjAPYgomKGtmhO0ftCp8mdrQNaUuygRFDK5UbNSidtx5hdAJk+sthQ==

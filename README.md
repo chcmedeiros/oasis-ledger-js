@@ -41,12 +41,13 @@ Upgrading and migrating are separate steps: 2.0.0 still accepts your existing tr
 In the browser, the DMK talks to the device over WebHID instead of WebUSB.
 
 ```sh
-yarn add @ledgerhq/device-management-kit @ledgerhq/device-transport-kit-web-hid rxjs @zondax/ledger-js
+yarn add @ledgerhq/device-management-kit @ledgerhq/device-transport-kit-web-hid rxjs @zondax/ledger-js@2.1.0
 ```
 
 `rxjs` is a peer dependency of the DMK. `@zondax/ledger-js` already comes with this package, but you import
-`DMKTransport` from it, so depend on it directly and keep a single copy in your tree: a `DMKTransport` from a second
-copy fails the `instanceof` check and is treated as a legacy transport.
+`DMKTransport` from it, so depend on it directly, at the exact version this package pins (`2.1.0`), to keep a single
+copy in your tree: a `DMKTransport` from a second copy fails the `instanceof` check and is treated as a legacy
+transport.
 
 Before:
 
